@@ -1,0 +1,10 @@
+﻿venv/
+data/
+__pycache__/
+*.py[cod]
+.env
+.kaggle/
+~/.kaggle/
+
+# Keep deployed model files
+!*.pkl
