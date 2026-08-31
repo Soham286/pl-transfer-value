@@ -11,7 +11,7 @@ The project uses Transfermarkt data from the Kaggle `davidcariboo/player-scores`
 
 ## Project status
 
-**Phase 2 of 8 complete: data acquisition and exploratory analysis.**
+**Phase 3 of 8 complete: feature engineering.**
 
 Current capabilities:
 
@@ -20,9 +20,11 @@ Current capabilities:
 - Historical player-valuation data
 - Exploratory notebook with five interactive Plotly analyses
 - Leakage-aware modelling plan
+- 64,622 validated player-season training rows
+- 38 engineered model features
 - Professional project structure
 
-The feature-engineering pipeline, trained models, Streamlit interface, screenshots, and deployment link will be added in subsequent phases.
+Model training, the Streamlit interface, screenshots, and the deployment link will be added in subsequent phases.
 
 ## Why this project?
 
@@ -98,6 +100,8 @@ Source: [Transfermarkt player scores dataset on Kaggle](https://www.kaggle.com/d
 | `appearances.csv` | 1,894,350 | Match-level goals, assists, minutes, dates, and competitions |
 | `clubs.csv` | 796 | Club and domestic-competition context |
 | `player_valuations.csv` | 656,301 | Historical market values used for time-aligned targets |
+| `games.csv` | 88,958 | Official season labels, dates, clubs, and competition types |
+| `competitions.csv` | 65 | Competition names and domestic-league classification |
 
 Target coverage:
 
@@ -108,6 +112,39 @@ Target coverage:
 
 Raw dataset files are intentionally excluded from Git.
 
+## Engineered feature dataset
+
+The feature pipeline produces `data/processed/features.csv`, which remains gitignored because it can be reproduced from the raw Kaggle files.
+
+Feature dataset summary:
+
+- 64,622 unique player-season rows
+- Seasons 2012 through 2025
+- 38 model input columns
+- Minimum 300 minutes per player-season
+- No duplicate player-season rows
+- No infinite numeric values
+- No target-timing violations
+- 18.88 MB processed CSV
+
+Performance features include raw totals and rate-based statistics:
+
+- Goals, assists, appearances, and minutes
+- Goals per 90 and assists per 90
+- Goal contributions per 90
+- Minutes share
+
+Context features include:
+
+- Age, age squared, and prime-age flag
+- One-hot encoded position
+- One-hot encoded domestic league
+- Previous-season club strength and club tier
+- Leakage-safe current contract availability
+
+Targets use the first available valuation recorded within 120 days after the relevant domestic-league season ends.
+
+Only 4,482 player-season rows have contract information close enough to the current contract snapshot to use safely. Historical rows remain missing rather than receiving leaked current contract data.
 ## Methodology
 
 ### Historical alignment
@@ -237,7 +274,7 @@ Select the `Python 3.12 (pl-transfer-value)` kernel and run the cells in order.
 - [x] Kaggle data acquisition
 - [x] Data-quality audit
 - [x] Exploratory analysis
-- [ ] Player-season feature engineering
+- [x] Player-season feature engineering
 - [ ] Time-based model comparison
 - [ ] Hyperparameter tuning and model persistence
 - [ ] Streamlit valuation interface
@@ -263,3 +300,4 @@ Select the `Python 3.12 (pl-transfer-value)` kernel and run the cells in order.
 ## Application
 
 The Streamlit screenshot and live deployment link will be added after the application is implemented and deployed.
+
