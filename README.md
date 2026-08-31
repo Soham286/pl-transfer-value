@@ -3,7 +3,7 @@
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.42-FF4B4B?logo=streamlit&logoColor=white)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-1.6-F7931E?logo=scikitlearn&logoColor=white)
-![Status](https://img.shields.io/badge/status-exploratory%20analysis-7C3AED)
+![Status](https://img.shields.io/badge/status-baseline%20modelling-7C3AED)
 
 A machine-learning application for estimating professional football players' market values from performance, age, position, competition, club strength, and contract context.
 
@@ -11,7 +11,7 @@ The project uses Transfermarkt data from the Kaggle `davidcariboo/player-scores`
 
 ## Project status
 
-**Phase 3 of 8 complete: feature engineering.**
+**Phase 4 of 8 complete: baseline model comparison.**
 
 Current capabilities:
 
@@ -24,7 +24,7 @@ Current capabilities:
 - 38 engineered model features
 - Professional project structure
 
-Model training, the Streamlit interface, screenshots, and the deployment link will be added in subsequent phases.
+Hyperparameter tuning, model persistence, the Streamlit interface, screenshots, and the deployment link will be added in subsequent phases.
 
 ## Why this project?
 
@@ -170,6 +170,23 @@ Although the model trains on `log1p(value)`, predictions will be converted back 
 3. XGBoost Regressor
 4. Hyperparameter tuning of the winning model
 
+## Baseline model results
+
+Models train on seasons 2012–2024 and are evaluated on the unseen 2025 season containing 4,977 player-season rows.
+
+All models train on `log1p(market value)`, but metrics are calculated in real euros after applying `expm1`.
+
+| Model | MAE | RMSE | R² |
+|---|---:|---:|---:|
+| Linear Regression | €3.59M | €8.73M | 0.6546 |
+| Random Forest | €2.93M | €7.07M | 0.7736 |
+| **XGBoost** | **€2.72M** | **€6.57M** | **0.8045** |
+
+XGBoost reduces MAE by approximately 24% relative to Linear Regression and 7% relative to Random Forest.
+
+The €2.72M MAE means that XGBoost predictions differ from the observed test-season market value by approximately €2.72M on average. The larger €6.57M RMSE indicates that errors remain much larger for some high-value players.
+
+Current-only contract columns are excluded from the historical comparison because earlier training seasons do not contain equivalent contract observations.
 ## Project structure
 
 ```text
@@ -275,7 +292,7 @@ Select the `Python 3.12 (pl-transfer-value)` kernel and run the cells in order.
 - [x] Data-quality audit
 - [x] Exploratory analysis
 - [x] Player-season feature engineering
-- [ ] Time-based model comparison
+- [x] Time-based model comparison
 - [ ] Hyperparameter tuning and model persistence
 - [ ] Streamlit valuation interface
 - [ ] SHAP explanations
@@ -300,4 +317,5 @@ Select the `Python 3.12 (pl-transfer-value)` kernel and run the cells in order.
 ## Application
 
 The Streamlit screenshot and live deployment link will be added after the application is implemented and deployed.
+
 
