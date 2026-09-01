@@ -11,6 +11,11 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+from src.explain import (
+    build_shap_waterfall,
+    load_tree_explainer,
+)
+
 
 # ============================================================================
 # BLOCK 1 — PAGE CONFIGURATION AND DESIGN SYSTEM
@@ -1031,6 +1036,58 @@ else:
         "statistical prediction interval. Part 7 will replace it "
         "with trained 10th/90th percentile models."
     )
+
+
+    st.markdown(
+        '<div class="eyebrow">Why this price</div>',
+        unsafe_allow_html=True,
+    )
+
+    st.markdown("### What moved this valuation?")
+
+    try:
+        with st.spinner("Explaining this valuation..."):
+            shap_explainer = load_tree_explainer(model)
+
+            shap_figure = build_shap_waterfall(
+                explainer=shap_explainer,
+                model=model,
+                features=result["features"],
+                feature_columns=feature_columns,
+                max_features=8,
+                accent=ACCENT,
+            )
+
+            shap_figure = apply_chart_style(
+                shap_figure
+            )
+
+        st.plotly_chart(
+            shap_figure,
+            use_container_width=True,
+            config={
+                "displayModeBar": False,
+                "responsive": True,
+            },
+            key="custom-player-shap-waterfall",
+        )
+
+        st.caption(
+            "Green features push the estimate upward; orange "
+            "features pull it downward. SHAP values are shown "
+            "in log1p-value units because that is the scale on "
+            "which the model was trained. Every bar adds to the "
+            "baseline and reconstructs the displayed prediction."
+        )
+
+    except Exception as error:
+        st.warning(
+            "The valuation was produced successfully, but its "
+            "SHAP explanation is temporarily unavailable."
+        )
+
+        with st.expander("Explanation error details"):
+            st.code(str(error))
 
     contribution_rate = (
         (result["goals"] + result["assists"])

@@ -349,5 +349,14 @@ The deployment model was retrained on all 64,622 player-season rows after evalua
 
 The Streamlit screenshot and live deployment link will be added after the application is implemented and deployed.
 
+## Explainable valuations
 
+Each custom-player prediction includes a SHAP waterfall explaining how the model reached that valuation. The chart begins with the model baseline and shows which age, performance, playing-time, position, league, and club-context features pushed the estimate upward or downward.
 
+SHAP contributions are displayed in `log1p(market value)` units because that is the model's training scale. The contributions add exactly to the final model output.
+
+## Automated data refresh
+
+A scheduled GitHub Actions pipeline checks the Kaggle source every Tuesday and Friday. When the source files change, it rebuilds features, tunes and retrains XGBoost, creates chronological predictions, validates the player catalog, and commits only deployable artifacts.
+
+Raw and processed datasets remain excluded from Git. This follows Kaggle's update frequency and is not yet a match-by-match live feed.
