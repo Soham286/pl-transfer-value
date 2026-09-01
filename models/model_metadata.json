@@ -22,12 +22,12 @@
   },
   "cross_validation_mae_eur": 2362856.2254566266,
   "evaluation_metrics": {
-    "mae_eur": 2757424.368488014,
-    "rmse_eur": 6666383.335150766,
-    "r2": 0.7984198103590366
+    "mae_eur": 2757424.35148166,
+    "rmse_eur": 6666383.300341807,
+    "r2": 0.798419812464165
   },
-  "search_seconds": 77.22623380000005,
-  "final_training_seconds": 3.6904645999893546,
-  "saved_at_utc": "2026-09-01T01:08:12.831889+00:00",
+  "search_seconds": 38.50728218799998,
+  "final_training_seconds": 1.4289743799999997,
+  "saved_at_utc": "2026-09-01T02:13:10.759281+00:00",
   "contract_policy": "Historical contract features excluded because reliable season-level contract snapshots are unavailable."
 }

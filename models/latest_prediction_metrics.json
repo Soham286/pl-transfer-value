@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-09-01T01:55:10.266689+00:00",
+  "generated_at_utc": "2026-09-01T02:13:13.807027+00:00",
   "prediction_type": "chronological_latest_season_holdout",
   "model": "XGBoost",
   "training_start_season": 2012,
@@ -8,7 +8,7 @@
   "training_rows": 59645,
   "test_rows": 4977,
   "feature_count": 36,
-  "mae_eur": 2757424.3684880137,
-  "rmse_eur": 6666383.335150764,
-  "r2": 0.7984198103590366
+  "mae_eur": 2757424.3514816593,
+  "rmse_eur": 6666383.300341805,
+  "r2": 0.798419812464165
 }

@@ -138,4 +138,4 @@ pretend that complete historical contract data exists.
 This model should generate evidence for discussion, not replace scouts,
 analysts, medical staff, or contract specialists.
 
-Generated: 2026-09-01T01:08:12.831889+00:00
+Generated: 2026-09-01T02:13:10.759281+00:00
