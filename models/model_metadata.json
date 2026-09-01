@@ -1,0 +1,33 @@
+{
+  "model_type": "XGBRegressor",
+  "model_filename": "model.pkl",
+  "target": "market_value_in_eur",
+  "target_transform": "log1p",
+  "inverse_transform": "expm1",
+  "training_window": "2012\u20132025",
+  "evaluation_training_window": "2012\u20132024",
+  "test_season": 2025,
+  "final_training_rows": 64622,
+  "test_rows": 4977,
+  "feature_count": 36,
+  "best_parameters": {
+    "subsample": 0.7,
+    "reg_lambda": 2.0,
+    "reg_alpha": 0.01,
+    "n_estimators": 600,
+    "min_child_weight": 1,
+    "max_depth": 4,
+    "learning_rate": 0.05,
+    "colsample_bytree": 1.0
+  },
+  "cross_validation_mae_eur": 2362856.2254566266,
+  "evaluation_metrics": {
+    "mae_eur": 2757424.368488014,
+    "rmse_eur": 6666383.335150766,
+    "r2": 0.7984198103590366
+  },
+  "search_seconds": 77.22623380000005,
+  "final_training_seconds": 3.6904645999893546,
+  "saved_at_utc": "2026-09-01T01:08:12.831889+00:00",
+  "contract_policy": "Historical contract features excluded because reliable season-level contract snapshots are unavailable."
+}

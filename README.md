@@ -3,7 +3,7 @@
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.42-FF4B4B?logo=streamlit&logoColor=white)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-1.6-F7931E?logo=scikitlearn&logoColor=white)
-![Status](https://img.shields.io/badge/status-baseline%20modelling-7C3AED)
+![Status](https://img.shields.io/badge/status-trained%20model-22C55E)
 
 A machine-learning application for estimating professional football players' market values from performance, age, position, competition, club strength, and contract context.
 
@@ -11,7 +11,7 @@ The project uses Transfermarkt data from the Kaggle `davidcariboo/player-scores`
 
 ## Project status
 
-**Phase 4 of 8 complete: baseline model comparison.**
+**Phase 5 of 8 complete: feature engineering, model comparison, tuning, and deployment artifact creation.**
 
 Current capabilities:
 
@@ -303,8 +303,32 @@ Select the `Python 3.12 (pl-transfer-value)` kernel and run the cells in order.
 - [ ] Squad builder
 - [ ] Streamlit Community Cloud deployment
 
-## Limitations
+## Model performance
 
+Models were evaluated using a chronological split rather than a random split. Training used seasons 2012–2024, while the most recent season, 2025, remained untouched for final evaluation.
+
+| Model | MAE | RMSE | R² |
+|---|---:|---:|---:|
+| Linear Regression | €3.59M | €8.73M | 0.6546 |
+| Random Forest | €2.93M | €7.07M | 0.7736 |
+| Baseline XGBoost | **€2.72M** | **€6.57M** | **0.8045** |
+| CV-selected XGBoost | €2.76M | €6.67M | 0.7984 |
+
+XGBoost was the strongest model family. Randomized time-aware cross-validation selected 600 trees, a learning rate of 0.05, depth 4, and regularization. Its cross-validation MAE was €2.36M.
+
+The tuned configuration was slightly weaker than the original XGBoost configuration on the untouched 2025 season. The project reports this result honestly instead of repeatedly optimizing against the test season, which would introduce test-set leakage.
+
+The deployment model was retrained on all 64,622 player-season rows after evaluation. It is stored in `models/model.pkl` together with the exact 36-column feature order required during inference.
+
+### Saved model artifacts
+
+- `models/model.pkl` — trained model and deployment metadata
+- `models/feature_columns.json` — exact prediction-column order
+- `models/model_metadata.json` — performance and training information
+- `models/model_card.md` — intended use, metrics, and limitations
+- `models/tuning_results.csv` — chronological cross-validation results
+
+## Limitations
 - Transfermarkt market values are estimates, not confirmed transfer fees.
 - Market value can be influenced by injuries, reputation, nationality, commercial appeal, and negotiation conditions not fully represented in match data.
 - Dataset coverage is stronger for well-documented leagues and players.
@@ -317,5 +341,6 @@ Select the `Python 3.12 (pl-transfer-value)` kernel and run the cells in order.
 ## Application
 
 The Streamlit screenshot and live deployment link will be added after the application is implemented and deployed.
+
 
 
