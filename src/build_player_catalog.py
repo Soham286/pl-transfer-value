@@ -1,4 +1,4 @@
-﻿"""Build a deployment-safe catalog of real players and held-out predictions."""
+"""Build a deployment-safe catalog of real players and held-out predictions."""
 
 from __future__ import annotations
 
@@ -22,7 +22,7 @@ PREDICTIONS_PATH = (
     PROJECT_ROOT
     / "data"
     / "processed"
-    / "tuned_test_predictions.csv"
+    / "latest_predictions.csv"
 )
 
 PLAYERS_PATH = (

@@ -1,0 +1,207 @@
+name: Refresh player valuations
+
+on:
+  workflow_dispatch:
+    inputs:
+      force_refresh:
+        description: Rebuild when Kaggle data is unchanged
+        required: false
+        default: false
+        type: boolean
+
+  schedule:
+    - cron: "17 18 * * 2,5"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: player-valuation-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    name: Refresh data and model
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Download Kaggle data
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          if [ -z "$KAGGLE_API_TOKEN" ]; then
+            echo "::error::KAGGLE_API_TOKEN is missing."
+            exit 1
+          fi
+
+          mkdir -p data/raw data/processed
+
+          files=(
+            players.csv
+            appearances.csv
+            clubs.csv
+            player_valuations.csv
+            games.csv
+            competitions.csv
+          )
+
+          for file in "${files[@]}"; do
+            kaggle datasets download \
+              davidcariboo/player-scores \
+              -f "$file" \
+              -p data/raw \
+              --unzip
+          done
+
+      - name: Detect data changes
+        id: snapshot
+        env:
+          FORCE_REFRESH: ${{ github.event.inputs.force_refresh }}
+        run: |
+          mkdir -p models
+
+          find data/raw \
+            -type f \
+            -name "*.csv" \
+            -print0 |
+            sort -z |
+            xargs -0 sha256sum |
+            sha256sum |
+            cut -d " " -f 1 \
+            > current_snapshot.sha256
+
+          changed=true
+
+          if [ "$FORCE_REFRESH" != "true" ] && \
+             [ -f models/data_snapshot.sha256 ]; then
+            if cmp -s \
+              current_snapshot.sha256 \
+              models/data_snapshot.sha256; then
+              changed=false
+            fi
+          fi
+
+          echo "changed=$changed" >> "$GITHUB_OUTPUT"
+
+          if [ "$changed" = "true" ]; then
+            mv \
+              current_snapshot.sha256 \
+              models/data_snapshot.sha256
+            echo "New Kaggle data detected."
+          else
+            rm current_snapshot.sha256
+            echo "Kaggle data is unchanged."
+          fi
+
+      - name: Run modelling pipeline
+        if: steps.snapshot.outputs.changed == 'true'
+        run: |
+          python -m compileall -q app.py pages src
+          python src/features.py
+
+          if [ -f src/validate_features.py ]; then
+            python src/validate_features.py
+          fi
+
+          python src/tune.py
+          python src/predict_latest.py
+          python src/build_player_catalog.py
+
+      - name: Validate generated artifacts
+        if: steps.snapshot.outputs.changed == 'true'
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          import pandas as pd
+
+          required = [
+              Path("models/model.pkl"),
+              Path("models/player_catalog.csv"),
+              Path("models/latest_prediction_metrics.json"),
+          ]
+
+          for path in required:
+              if not path.exists():
+                  raise FileNotFoundError(
+                      f"Missing artifact: {path}"
+                  )
+
+          catalog = pd.read_csv(
+              "models/player_catalog.csv"
+          )
+
+          metrics = json.loads(
+              Path(
+                  "models/latest_prediction_metrics.json"
+              ).read_text(encoding="utf-8")
+          )
+
+          if catalog.empty:
+              raise ValueError("Player catalog is empty.")
+
+          if catalog["player_id"].duplicated().any():
+              raise ValueError(
+                  "Player catalog has duplicate players."
+              )
+
+          if catalog["predicted_value_eur"].isna().any():
+              raise ValueError(
+                  "Player catalog has missing predictions."
+              )
+
+          print(f"Catalog rows: {len(catalog):,}")
+          print(
+              "Catalog season: "
+              f"{int(catalog['season'].max())}"
+          )
+          print(
+              "Held-out MAE: "
+              f"€{metrics['mae_eur'] / 1_000_000:,.2f}M"
+          )
+          PY
+
+      - name: Commit refreshed artifacts
+        if: steps.snapshot.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -- \
+            models/model.pkl \
+            models/feature_columns.json \
+            models/model_metadata.json \
+            models/model_card.md \
+            models/tuning_results.csv \
+            models/latest_prediction_metrics.json \
+            models/player_catalog.csv \
+            models/data_snapshot.sha256
+
+          if git diff --cached --quiet; then
+            echo "No deployable artifacts changed."
+          else
+            git commit \
+              -m "chore: refresh player valuation data"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
