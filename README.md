@@ -1,4 +1,4 @@
-﻿# PL Transfer Value
+# PL Transfer Value
 
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.42-FF4B4B?logo=streamlit&logoColor=white)
@@ -23,6 +23,13 @@ Current capabilities:
 - 64,622 validated player-season training rows
 - 38 engineered model features
 - Professional project structure
+- Leakage-aware player-season feature-engineering pipeline
+- Chronological model evaluation on the latest season
+- Tuned XGBoost valuation model
+- Interactive custom-player valuation interface
+- Searchable catalog of 4,977 real players
+- Player photos, recorded values, predictions, and valuation gaps
+
 
 Hyperparameter tuning, model persistence, the Streamlit interface, screenshots, and the deployment link will be added in subsequent phases.
 

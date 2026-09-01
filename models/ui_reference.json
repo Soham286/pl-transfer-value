@@ -1,0 +1,35 @@
+{
+  "reference_season": 2025,
+  "position_summary": {
+    "Attack": {
+      "player_count": 1393,
+      "mean_value_eur": 9479073.941134242,
+      "median_value_eur": 3000000.0
+    },
+    "Midfield": {
+      "player_count": 1436,
+      "mean_value_eur": 8963840.529247912,
+      "median_value_eur": 2500000.0
+    },
+    "Defender": {
+      "player_count": 1777,
+      "mean_value_eur": 6851266.178953292,
+      "median_value_eur": 2200000.0
+    },
+    "Goalkeeper": {
+      "player_count": 371,
+      "mean_value_eur": 4875808.625336927,
+      "median_value_eur": 1500000.0
+    }
+  },
+  "club_tier_strength_log": {
+    "Elite": 18.87810559732036,
+    "Lower": 16.929025911619092,
+    "Middle": 17.247883589405056,
+    "Upper": 17.85416623194693
+  },
+  "notes": {
+    "position_benchmark": "Mean observed target value in the latest modeled season.",
+    "contract": "Contract information is contextual and is not used by the primary historical model."
+  }
+}
