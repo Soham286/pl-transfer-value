@@ -10,7 +10,7 @@ on:
         type: boolean
 
   schedule:
-        - cron: "17 3 * * *"
+    - cron: "17 3 * * *"
       timezone: "America/Los_Angeles"
 permissions:
   contents: write
