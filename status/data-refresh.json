@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "source": "davidcariboo/player-scores",
+  "last_checked_utc": "2026-09-04T00:12:28Z",
+  "last_checked_pacific": "2026-09-03T17:12:28-07:00",
+  "dataset_changed": false,
+  "model_retrained": false,
+  "dataset_snapshot_sha256": "726c1063b30f00b1bec3cdd652efad7234252157078b6c98dfff28560a1dfee7",
+  "workflow_event": "workflow_dispatch",
+  "workflow_run_number": 4,
+  "workflow_run_url": "https://github.com/Soham286/pl-transfer-value/actions/runs/33820765876",
+  "checked_commit": "b9d361ed0436843f4108e88ae36663af84b4dca6"
+}
