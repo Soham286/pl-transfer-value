@@ -10,8 +10,8 @@ on:
         type: boolean
 
   schedule:
-    - cron: "17 18 * * 2,5"
-
+        - cron: "17 3 * * *"
+      timezone: "America/Los_Angeles"
 permissions:
   contents: write
 
@@ -180,14 +180,21 @@ jobs:
           )
           PY
 
-      - name: Commit refreshed artifacts
-        if: steps.snapshot.outputs.changed == 'true'
+      - name: Write refresh status
+        env:
+          DATA_CHANGED: ${{ steps.snapshot.outputs.changed }}
+        run: python src/write_refresh_status.py
+
+      - name: Commit refresh status and artifacts
+        env:
+          DATA_CHANGED: ${{ steps.snapshot.outputs.changed }}
         run: |
-          git config user.name "github-actions[bot]"
+          git config user.name "Soham Banerjee"
           git config user.email \
-            "41898282+github-actions[bot]@users.noreply.github.com"
+            "${GITHUB_REPOSITORY_OWNER_ID}+${GITHUB_REPOSITORY_OWNER}@users.noreply.github.com"
 
           git add -- \
+            status/data-refresh.json \
             models/model.pkl \
             models/feature_columns.json \
             models/model_metadata.json \
@@ -197,11 +204,17 @@ jobs:
             models/player_catalog.csv \
             models/data_snapshot.sha256
 
-          if git diff --cached --quiet; then
-            echo "No deployable artifacts changed."
+          if [ "$DATA_CHANGED" = "true" ]; then
+            commit_message="chore: refresh player valuation data"
           else
-            git commit \
-              -m "chore: refresh player valuation data"
-            git pull --rebase origin main
-            git push origin HEAD:main
+            commit_message="chore: record daily data refresh"
           fi
+
+          if git diff --cached --quiet; then
+            echo "No refresh-status changes to commit."
+            exit 0
+          fi
+
+          git commit -m "$commit_message"
+          git pull --rebase origin main
+          git push origin HEAD:main
