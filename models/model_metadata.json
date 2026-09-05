@@ -26,8 +26,8 @@
     "rmse_eur": 6666383.300341807,
     "r2": 0.798419812464165
   },
-  "search_seconds": 38.50728218799998,
-  "final_training_seconds": 1.4289743799999997,
-  "saved_at_utc": "2026-09-01T02:13:10.759281+00:00",
+  "search_seconds": 38.11100832599999,
+  "final_training_seconds": 1.434091293999984,
+  "saved_at_utc": "2026-09-05T13:29:58.929980+00:00",
   "contract_policy": "Historical contract features excluded because reliable season-level contract snapshots are unavailable."
 }
