@@ -1,13 +1,13 @@
 {
   "status": "success",
   "source": "davidcariboo/player-scores",
-  "last_checked_utc": "2026-10-14T15:13:16Z",
-  "last_checked_pacific": "2026-10-14T08:13:16-07:00",
+  "last_checked_utc": "2026-10-15T15:06:40Z",
+  "last_checked_pacific": "2026-10-15T08:06:40-07:00",
   "dataset_changed": false,
   "model_retrained": false,
   "dataset_snapshot_sha256": "49f3d0cfe4211f9cc749c294d635127c12bbb64c158be14c1ad705a8ad5f92d2",
   "workflow_event": "schedule",
-  "workflow_run_number": 46,
-  "workflow_run_url": "https://github.com/Soham286/pl-transfer-value/actions/runs/38587234455",
-  "checked_commit": "127df4ffe817104394fe93dc51f716344c14c2d6"
+  "workflow_run_number": 47,
+  "workflow_run_url": "https://github.com/Soham286/pl-transfer-value/actions/runs/38757243456",
+  "checked_commit": "0445e44a5976340bf7303d7c440102d217ce21bb"
 }
