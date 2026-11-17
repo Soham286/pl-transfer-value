@@ -25,14 +25,14 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 MODEL_PATH = PROJECT_ROOT / "models" / "model.pkl"
 REFERENCE_PATH = PROJECT_ROOT / "models" / "ui_reference.json"
 
-ACCENT = "#8B5CF6"
-ACCENT_LIGHT = "#A78BFA"
-BACKGROUND = "#090B12"
-SURFACE = "#141824"
-SURFACE_LIGHT = "#1C2130"
+ACCENT = "#C6FF3D"
+ACCENT_LIGHT = "#C6FF3D"
+BACKGROUND = "#070A24"
+SURFACE = "#141A4A"
+SURFACE_LIGHT = "#1B2160"
 TEXT = "#F4F4F5"
 MUTED = "#A1A1AA"
-GRID = "#2A3142"
+GRID = "#2A3170"
 
 st.markdown(
     """
@@ -41,10 +41,10 @@ st.markdown(
             background:
                 radial-gradient(
                     circle at 75% 5%,
-                    rgba(139, 92, 246, 0.13),
+                    rgba(198, 255, 61, 0.13),
                     transparent 28rem
                 ),
-                #090B12;
+                #070A24;
         }
 
         .block-container {
@@ -54,7 +54,7 @@ st.markdown(
         }
 
         [data-testid="stSidebar"] {
-            background: #10131D;
+            background: #0B0F2E;
             border-right: 1px solid rgba(255, 255, 255, 0.07);
         }
 
@@ -67,7 +67,7 @@ st.markdown(
         }
 
         .eyebrow {
-            color: #A78BFA;
+            color: #C6FF3D;
             font-size: 0.76rem;
             font-weight: 800;
             letter-spacing: 0.16em;
@@ -96,10 +96,10 @@ st.markdown(
             background:
                 linear-gradient(
                     135deg,
-                    rgba(139, 92, 246, 0.19),
+                    rgba(198, 255, 61, 0.19),
                     rgba(20, 24, 36, 0.96) 55%
                 );
-            border: 1px solid rgba(167, 139, 250, 0.32);
+            border: 1px solid rgba(198, 255, 61, 0.32);
             border-radius: 24px;
             box-shadow: 0 24px 70px rgba(0, 0, 0, 0.30);
             margin: 1.8rem 0 1.25rem 0;
@@ -109,7 +109,7 @@ st.markdown(
         }
 
         .result-card::before {
-            background: #8B5CF6;
+            background: #C6FF3D;
             content: "";
             height: 100%;
             left: 0;
@@ -119,7 +119,7 @@ st.markdown(
         }
 
         .result-label {
-            color: #C4B5FD;
+            color: #C6FF3D;
             font-size: 0.76rem;
             font-weight: 800;
             letter-spacing: 0.14em;
@@ -150,7 +150,7 @@ st.markdown(
         .empty-card {
             align-items: center;
             background: rgba(20, 24, 36, 0.72);
-            border: 1px dashed rgba(167, 139, 250, 0.38);
+            border: 1px dashed rgba(198, 255, 61, 0.38);
             border-radius: 24px;
             display: flex;
             flex-direction: column;
@@ -163,8 +163,8 @@ st.markdown(
 
         .empty-icon {
             align-items: center;
-            background: rgba(139, 92, 246, 0.15);
-            border: 1px solid rgba(167, 139, 250, 0.28);
+            background: rgba(198, 255, 61, 0.15);
+            border: 1px solid rgba(198, 255, 61, 0.28);
             border-radius: 18px;
             display: flex;
             font-size: 2rem;
@@ -188,7 +188,7 @@ st.markdown(
         }
 
         .section-label {
-            color: #A78BFA;
+            color: #C6FF3D;
             font-size: 0.75rem;
             font-weight: 800;
             letter-spacing: 0.13em;
@@ -226,8 +226,8 @@ st.markdown(
 
         .stButton > button,
         .stFormSubmitButton > button {
-            background: #8B5CF6;
-            border: 1px solid #8B5CF6;
+            background: #C6FF3D;
+            border: 1px solid #C6FF3D;
             border-radius: 12px;
             color: white;
             font-weight: 750;
@@ -239,8 +239,8 @@ st.markdown(
         .stButton > button:hover,
         .stFormSubmitButton > button:hover {
             background: #7C3AED;
-            border-color: #A78BFA;
-            box-shadow: 0 8px 28px rgba(139, 92, 246, 0.28);
+            border-color: #C6FF3D;
+            box-shadow: 0 8px 28px rgba(198, 255, 61, 0.28);
             transform: translateY(-1px);
         }
 

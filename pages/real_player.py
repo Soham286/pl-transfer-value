@@ -20,13 +20,13 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 MODEL_PATH = PROJECT_ROOT / "models" / "model.pkl"
 CATALOG_PATH = PROJECT_ROOT / "models" / "player_catalog.csv"
 
-ACCENT = "#8B5CF6"
-ACCENT_LIGHT = "#A78BFA"
+ACCENT = "#C6FF3D"
+ACCENT_LIGHT = "#C6FF3D"
 TEXT = "#F4F4F5"
 MUTED = "#A1A1AA"
-SURFACE = "#141824"
-SURFACE_LIGHT = "#1C2130"
-GRID = "#2A3142"
+SURFACE = "#141A4A"
+SURFACE_LIGHT = "#1B2160"
+GRID = "#2A3170"
 
 POSITION_SHORT_NAMES = {
     "Attack": "ATT",
@@ -148,10 +148,10 @@ st.markdown(
             background:
                 radial-gradient(
                     circle at 78% 4%,
-                    rgba(139, 92, 246, 0.15),
+                    rgba(198, 255, 61, 0.15),
                     transparent 30rem
                 ),
-                #090B12;
+                #070A24;
         }
 
         .block-container {
@@ -161,8 +161,12 @@ st.markdown(
         }
 
         [data-testid="stSidebar"] {
-            background: #10131D;
+            background: #0B0F2E;
             border-right: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .stApp, h1, h2, h3, .page-title, .player-name, .valuation-value {
+            font-family: Bahnschrift, 'Arial Narrow', 'Segoe UI', sans-serif;
         }
 
         h1, h2, h3 {
@@ -170,7 +174,7 @@ st.markdown(
         }
 
         .eyebrow {
-            color: #A78BFA;
+            color: #C6FF3D;
             font-size: 0.76rem;
             font-weight: 800;
             letter-spacing: 0.16em;
@@ -195,111 +199,101 @@ st.markdown(
         }
 
         .player-card {
-            background:
-                radial-gradient(
-                    circle at 20% 20%,
-                    rgba(139, 92, 246, 0.30),
-                    transparent 35%
-                ),
-                linear-gradient(
-                    135deg,
-                    #201A3A,
-                    #141824 55%,
-                    #10131D
-                );
-            border: 1px solid rgba(167, 139, 250, 0.38);
-            border-radius: 28px;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.38);
             display: grid;
-            grid-template-columns: minmax(260px, 0.72fr) 1.4fr;
+            gap: 2rem;
+            grid-template-columns: minmax(280px, 0.6fr) 1.5fr;
             min-height: 470px;
-            overflow: hidden;
-            position: relative;
-            transform:
-                perspective(1200px)
-                rotateX(0deg)
-                rotateY(0deg);
-            transition:
-                transform 220ms ease,
-                box-shadow 220ms ease;
-        }
-
-        .player-card:hover {
-            box-shadow:
-                0 38px 100px rgba(0,0,0,0.48),
-                0 0 55px rgba(139,92,246,0.10);
-            transform:
-                perspective(1200px)
-                rotateX(0.6deg)
-                rotateY(-1.2deg)
-                translateY(-4px);
         }
 
         .player-visual {
-            align-items: flex-end;
-            background:
-                linear-gradient(
-                    180deg,
-                    rgba(139,92,246,0.08),
-                    rgba(9,11,18,0.50)
-                );
+            align-items: flex-start;
             display: flex;
             justify-content: center;
-            min-height: 470px;
-            overflow: hidden;
-            position: relative;
         }
 
-        .photo-fallback {
-            align-items: center;
-            color: rgba(255,255,255,0.20);
-            display: flex;
-            font-size: 5rem;
+        .fut-card {
+            background: linear-gradient(155deg, #F6E7A1, #D4A93C 45%, #8A6A1C);
+            clip-path: polygon(50% 0, 92% 6%, 100% 12%, 100% 90%, 50% 100%, 0 90%, 0 12%, 8% 6%);
+            color: #2B1D00;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6));
+            height: 450px;
+            position: relative;
+            width: 310px;
+        }
+
+        .fut-card::before {
+            background:
+                linear-gradient(160deg, rgba(255,255,255,0.2), transparent 40%),
+                repeating-linear-gradient(115deg, rgba(255,255,255,0.08) 0 2px, transparent 2px 14px);
+            content: "";
             inset: 0;
-            justify-content: center;
             position: absolute;
         }
 
-        .player-photo {
-            filter:
-                drop-shadow(0 24px 25px rgba(0,0,0,0.45));
-            height: 95%;
-            max-width: 100%;
-            object-fit: contain;
-            object-position: bottom center;
-            position: relative;
-            width: 100%;
+        .fut-ovr {
+            left: 34px;
+            line-height: 1;
+            position: absolute;
+            text-align: center;
+            top: 46px;
             z-index: 2;
         }
 
-        .position-badge {
-            background: rgba(9,11,18,0.76);
-            border: 1px solid rgba(255,255,255,0.13);
-            border-radius: 12px;
-            color: #FFFFFF;
-            font-size: 0.85rem;
-            font-weight: 850;
-            left: 1.25rem;
-            letter-spacing: 0.12em;
-            padding: 0.65rem 0.8rem;
+        .fut-ovr .n { font-size: 3.6rem; font-weight: 800; }
+        .fut-ovr .p { font-size: 1.25rem; font-weight: 700; margin-top: 4px; }
+
+        .fut-photo {
+            bottom: 232px;
+            filter: drop-shadow(0 6px 8px rgba(0,0,0,0.45));
+            height: 170px;
+            object-fit: contain;
             position: absolute;
-            top: 1.25rem;
-            z-index: 4;
+            right: 30px;
+            width: 170px;
+            z-index: 2;
         }
 
-        .percentile-badge {
-            color: #C4B5FD;
-            font-size: 0.75rem;
+        .fut-name {
+            border-bottom: 2px solid rgba(43,29,0,0.4);
+            font-size: 1.6rem;
             font-weight: 800;
-            letter-spacing: 0.09em;
+            left: 40px;
+            letter-spacing: 0.04em;
+            padding-bottom: 6px;
             position: absolute;
-            right: 1.25rem;
+            right: 40px;
+            text-align: center;
             text-transform: uppercase;
-            top: 1.5rem;
-            z-index: 4;
+            top: 218px;
+            z-index: 2;
         }
+
+        .fut-stats {
+            display: grid;
+            gap: 2px 22px;
+            grid-template-columns: 1fr 1fr;
+            left: 44px;
+            position: absolute;
+            right: 44px;
+            top: 270px;
+            z-index: 2;
+        }
+
+        .fut-stats div {
+            align-items: baseline;
+            display: flex;
+            font-size: 1.3rem;
+            font-weight: 700;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .fut-stats small { font-size: 0.95rem; font-weight: 600; opacity: 0.75; width: 34px; }
 
         .player-information {
+            background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+            border: 1px solid rgba(255,255,255,0.12);
+            clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 0 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -352,10 +346,10 @@ st.markdown(
 
         .status-pill {
             align-self: flex-start;
-            background: rgba(139,92,246,0.15);
-            border: 1px solid rgba(167,139,250,0.30);
+            background: rgba(198,255,61,0.15);
+            border: 1px solid rgba(198,255,61,0.30);
             border-radius: 999px;
-            color: #D8CCFF;
+            color: #E4FF9A;
             font-size: 0.82rem;
             font-weight: 750;
             margin-top: 1.15rem;
@@ -370,7 +364,7 @@ st.markdown(
         }
 
         .season-stat {
-            border-left: 2px solid rgba(167,139,250,0.50);
+            border-left: 2px solid rgba(198,255,61,0.50);
             padding-left: 0.75rem;
         }
 
@@ -389,7 +383,7 @@ st.markdown(
         }
 
         .section-label {
-            color: #A78BFA;
+            color: #C6FF3D;
             font-size: 0.75rem;
             font-weight: 800;
             letter-spacing: 0.13em;
@@ -869,17 +863,30 @@ position_short = POSITION_SHORT_NAMES.get(
     position[:3].upper(),
 )
 
-percentile = float(
-    (
-        catalog["predicted_value_eur"]
-        <= predicted_value
-    ).mean()
-    * 100
-)
-
 position_group = catalog.loc[
     catalog["position"] == position
 ]
+
+def position_percentile(column: str) -> int:
+    """Percentile rank of the selected player within their position."""
+    values = position_group[column]
+    return int(round((values <= selected_player[column]).mean() * 100))
+
+
+# FIFA-style card: OVR ranks predicted value within position, not a game rating.
+card_rating = int(round(55 + 0.4 * position_percentile("predicted_value_eur")))
+card_stats = [
+    ("GLS", position_percentile("goals_per_90")),
+    ("AST", position_percentile("assists_per_90")),
+    ("MIN", position_percentile("minutes_share")),
+    ("MKT", position_percentile("actual_value_eur")),
+    ("CLB", position_percentile("club_strength_log")),
+    ("VAL", position_percentile("predicted_value_eur")),
+]
+card_stats_html = "".join(
+    f"<div>{value}<small>{label}</small></div>"
+    for label, value in card_stats
+)
 
 position_rank = int(
     (
@@ -930,18 +937,21 @@ st.markdown(
     f"""
     <div class="player-card">
         <div class="player-visual">
-            <div class="position-badge">{position_short}</div>
-            <div class="percentile-badge">
-                {percentile:.0f}th value percentile
+            <div class="fut-card">
+                <div class="fut-ovr">
+                    <div class="n">{card_rating}</div>
+                    <div class="p">{position_short}</div>
+                </div>
+                <img
+                    class="fut-photo"
+                    src="{photo_url}"
+                    alt="{player_name}"
+                    referrerpolicy="no-referrer"
+                    onerror="this.style.display='none';"
+                />
+                <div class="fut-name">{player_name.split()[-1]}</div>
+                <div class="fut-stats">{card_stats_html}</div>
             </div>
-            <div class="photo-fallback">⚽</div>
-            <img
-                class="player-photo"
-                src="{photo_url}"
-                alt="{player_name}"
-                referrerpolicy="no-referrer"
-                onerror="this.style.display='none';"
-            />
         </div>
 
         <div class="player-information">
